@@ -1,0 +1,33 @@
+{
+  "game": {
+    "BALANCE": "Balance",
+    "DAILY_WINS": "Daily Wins",
+    "DROPS_WINS": "Drops & Wins",
+    "GOLDENBET_LOBBY": "GoldenBet Lobby",
+    "LAST_PLAYED_GAMES": "Last Played Games",
+    "LIVE_CASINO": "Live Casino",
+    "LOBBY_BACK_TO_GAME": "Back to game",
+    "LOBBY_CHECK_SPELLING": "Please check spelling, try different keywords or clear filters",
+    "LOBBY_CLEAR_FILTERS": "Clear Filters",
+    "LOBBY_CREDIT": "Credit",
+    "LOBBY_FILTERS": "Filters",
+    "LOBBY_FILTERS_BUY_FEATURE": "Bonus Buy",
+    "LOBBY_FILTERS_CLUSTER": "Cluster games",
+    "LOBBY_FILTERS_MEGAWAYS": "Megaways",
+    "LOBBY_FILTERS_PAY_ANYWHERE": "Pay anywhere",
+    "LOBBY_FILTERS_PJACKPOT": "Jackpot Games",
+    "LOBBY_FOR_YOU": "For You",
+    "LOBBY_GAME_TYPE": "Game Type",
+    "LOBBY_LIVE_CASINO": "Live Casino",
+    "LOBBY_MODIFY_SEARCH": "Please modify your search criteria or clear filters.",
+    "LOBBY_NEW": "New",
+    "LOBBY_NO_RESULTS": "No Results Available",
+    "LOBBY_PLAY_GAME": "Play the game",
+    "LOBBY_RECENTLY_ADDED": "Recently added",
+    "LOBBY_REMOVE_FILTERS": "Remove Filters",
+    "LOBBY_SEARCH_FOR_GAMES": "Search for games",
+    "LOBBY_SEE_RESULTS": "See Results",
+    "RECOMMENDED_GAMES": "Recommended Games",
+    "vswaysmahwblck": "Mahjong Wins 3 - Black Scatter"
+  }
+}

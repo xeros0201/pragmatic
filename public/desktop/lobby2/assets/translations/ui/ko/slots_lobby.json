@@ -1,0 +1,33 @@
+{
+  "game": {
+    "BALANCE": "보유잔액",
+    "DAILY_WINS": "일일 당첨",
+    "DROPS_WINS": "드롭 & 당첨",
+    "GOLDENBET_LOBBY": "GoldenBet 로비",
+    "LAST_PLAYED_GAMES": "마지막 플레이한 게임",
+    "LIVE_CASINO": "라이브 카지노",
+    "LOBBY_BACK_TO_GAME": "게임으로 돌아가기",
+    "LOBBY_CHECK_SPELLING": "철자를 확인하고 다른 키워드를 시도하거나 필터를 삭제하세요",
+    "LOBBY_CLEAR_FILTERS": "필터 삭제하기",
+    "LOBBY_CREDIT": "크레딧",
+    "LOBBY_FILTERS": "필터",
+    "LOBBY_FILTERS_BUY_FEATURE": "보너스 구매",
+    "LOBBY_FILTERS_CLUSTER": "클러스터 게임",
+    "LOBBY_FILTERS_MEGAWAYS": "Megaways",
+    "LOBBY_FILTERS_PAY_ANYWHERE": "어느 곳이든 지급하세요",
+    "LOBBY_FILTERS_PJACKPOT": "잭팟 게임",
+    "LOBBY_FOR_YOU": "맞춤 게임",
+    "LOBBY_GAME_TYPE": "게임 종류",
+    "LOBBY_LIVE_CASINO": "라이브 카지노",
+    "LOBBY_MODIFY_SEARCH": "검색 기준을 수정하거나 필터를 초기화하세요.",
+    "LOBBY_NEW": "신규",
+    "LOBBY_NO_RESULTS": "이용 가능한 결과 없음",
+    "LOBBY_PLAY_GAME": "게임 플레이",
+    "LOBBY_RECENTLY_ADDED": "최근 추가됨",
+    "LOBBY_REMOVE_FILTERS": "필터 제거하기",
+    "LOBBY_SEARCH_FOR_GAMES": "게임 검색",
+    "LOBBY_SEE_RESULTS": "결과 보기",
+    "RECOMMENDED_GAMES": "추천 게임",
+    "vswaysmahwblck": "Mahjong Wins 3 - Black Scatter"
+  }
+}
