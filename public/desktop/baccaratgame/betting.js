@@ -15,13 +15,10 @@ function getCookie(name) {
 }
 const token_from_cookie = getCookie("token")
 const socket = io(wss, {
-    auth:{
-       token: token_from_cookie
-    },
-    reconnection: true,
-    reconnectionAttempts: 5,
-    reconnectionDelay: 1000,
-    timeout: 10000,
+    transports: ['websocket', 'polling'],
+    query: {
+        token: token_from_cookie
+    }
   });
 socket.on('connect', () => {
     console.log('Connected to server');
