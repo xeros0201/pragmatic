@@ -34,7 +34,7 @@ app.use(express.urlencoded({ extended: true }));
     const session =  await getSession(trueURL)
     if(!session) return res.redirect('https://games.pragmaticplaylive.net/api/secure/GameLaunch')
       
-    res.cookie("PPG", session,{  maxAge:30*1000 })
+    res.cookie("PPG", session)
     res.cookie("token", req.query?.token)
     res.redirect('/desktop/lobby2/')
   } catch (error) {
