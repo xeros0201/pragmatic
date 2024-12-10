@@ -7,7 +7,7 @@ const __dirname = path.dirname(__filename);
 export  const  getSession = async (url) => {
   try {
     const browser = await chromium.launch({
-      channel: "msedge",
+ 
       headless: true,
       viewport: null,
       args:[
