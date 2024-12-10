@@ -5,7 +5,8 @@ import { fileURLToPath } from "url";
 import axios from "axios";
 import { api,commonHeader,baseURL } from "./routers/api.js";
 import { getSession } from "./browser/index.js";
-
+import convert from 'xml-js'
+import cookieParser from "cookie-parser";
 // Configuration
 const PORT = 3005;
 const REMOTE_SOURCE_URL = "https://client.pragmaticplaylive.net"; // Fallback URL for missing files
@@ -20,7 +21,7 @@ const PUBLIC_DIR = path.join(__dirname,  'public');
 // Initialize Express app
 const app = express();
 app.use(express.json());
- 
+app.use(cookieParser());
 // Middleware to parse URL-encoded data (e.g., for form submissions)
 app.use(express.urlencoded({ extended: true }));
 // Middleware: Serve static files
@@ -33,9 +34,11 @@ app.use(express.urlencoded({ extended: true }));
     const session =  await getSession(trueURL)
     if(!session) return res.redirect('https://games.pragmaticplaylive.net/api/secure/GameLaunch')
       
-    res.cookie("PPG", session,{ expires:1000*30 })
+    res.cookie("PPG", session,{  maxAge:30*1000 })
+    res.cookie("token", req.query?.token)
     res.redirect('/desktop/lobby2/')
   } catch (error) {
+      console.log(error)
     res.send("aaaaaaaaaaaaaa ! watch out yourself !!!")
   }
 
@@ -86,9 +89,31 @@ app.use('/cgibin/balance.jsp', async (req,res)=>{
         accept:"application/json, text/plain, */*"
       }
     })
+    console.log(req.cookies.token)
+    const balance = await  axios.get(`https://deva.abb1901.com/api/v1/internal/auth/balance`,{  
+        headers:{
+          "x-api-key":"asdqwe123123",
+          "token":req.cookies.token,
+        }
+    })
+ 
+    console.log(balance.data)
     const text = await response.text()
+    let json_text = convert.xml2js(text)
+ 
+
+    json_text.elements[0].elements =   json_text.elements[0]?.elements.map( x =>{
+      if(x.name === "balance"){
+            x.elements[0].text = balance.data.code===0 ? balance.data.balance : '0'
+      }
+
+      return x
+    } )
+    
+
+    const true_return = convert.js2xml(json_text)
     res.set("Content-Type", "application/xml");
-    res.status(200).send(text)
+    res.status(200).send(true_return)
   } catch (error) {
       console.log(error)
     res.status(400).send(error)
