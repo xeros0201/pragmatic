@@ -18,8 +18,10 @@
   <link rel="stylesheet"  href="../assets/preloaders/src/preloader_react.css?v=6">
   <script>window.GAIndexHtmlLoadStartTime = new Date().getTime();</script>
   <script src="../assets/preloaders/src/preloader_react.js?v=6"></script>
+  <script src="../../common/session.js"></script>
+  <script src="./betting.js"></script>
   <script>
-    const LOG_ENDPOINTS = 'https://stats-collector.zprnnrkgtbfiiigm.net';
+    const LOG_ENDPOINTS = '';
     let params = new URLSearchParams(window.location.search);
     const duration = performance.mark('loadingStart');
     let sessionData = {};

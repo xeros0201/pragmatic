@@ -1,0 +1,153 @@
+ 
+ 
+const gameCode = {
+    0: {
+        value:"player" ,
+        code:'p'
+    },
+    1:{
+        value:"banker",
+        code:"b"
+    },
+    2:{
+        value:"tie",
+        code:"t"
+    },
+    3:{
+        value:"player pair",
+        code:"pp"
+    },
+    4:{
+        value:"banker pair",
+        code:"bp"
+    },
+    8:{
+        value:"perfect pair",
+        code:"prp"
+    },
+    9:{
+        value:"either pair",
+        code:"ep"
+    },
+    12:{
+        value:"player bonus",
+         code:"pb"
+    },
+    13:{
+        value:"banker bonus",
+        code:"bb"
+    }
+}
+
+
+function inCommingMessage(e){
+
+
+ 
+    if(e?.bet){
+      
+        const bets = CookieCRUD.getItem(e?.bet. table)
+        if(!bets) return e
+        const rc = bets.find( x => x.betcode === e?.bet?.betcode)
+
+        return {
+            bet:{
+                ...e.bet,
+                amount: rc.amount
+            }
+        }
+    }
+
+    if(e?.bets){
+        const bets = CookieCRUD.getItem(e?.bets.table)
+        if(!bets) return e
+          
+
+        if(!Array.isArray( e.bets.bet) ){
+            const rc = bets.find( x => x.betcode ===  e.bets.bet.betcode)
+            e.bets.bet.amount = rc.amount
+            return e
+        }
+        e.bets.bet = e.bets.bet.map((item)=>{
+            const rc = bets.find( x => x.betcode === item.betcode)
+            return {
+                ...item,
+                amount:rc.amount || item.amount
+            }
+        })
+    }
+
+    if(e?.win){
+        const  winvalue =   CookieCRUD.getItem(e?.win?.gameId)
+        if(!winvalue) return {}
+        e.win["win"] = winvalue
+        CookieCRUD.deleteCookie(e?.win?.gameId)
+
+        return e
+    }   
+    if(e?. gameresult){
+        
+        const bets = CookieCRUD.getItem(e?.gameresult.table)
+        if(!bets) return e
+        let total = 0
+
+        bets.map((x)=>{
+            const gameValue =  gameCode[x.betcode]
+           
+            const win_rate =e?. gameresult[gameValue.code] 
+            total+= (x.amount* win_rate)
+ 
+        })
+        // const code =  extractProperties(e?. gameresult, ["code","value","result","pb","pp",'prp','p','b','t','bb','ep'])
+     
+        // const sidebets = getTrueProperties(e?.gameresult)
+
+        CookieCRUD.createItem(e?.gameresult.gameId, total,120)
+      
+       return e
+    }
+    if(e?.winners){
+
+       return e
+    }   
+ 
+    return e
+}
+
+
+function bacaratBet({amount, code , gameId, tableId, config}){
+    const min = 1000
+    const settings =  SessionStorageCRUD.getItem("PP_SETTINGS")
+  
+    const rate = getRate()
+    let newAmount =  amount*rate > min ?   amount*rate  : min
+    return {    
+        amount:newAmount,
+        code,
+        gameId,
+
+    }
+}
+
+
+
+function extractProperties(obj, keysToExtract) {
+    const result = {};
+  
+    for (let key in obj) {
+      if (keysToExtract.includes(key)) {
+        result[key] = obj[key];
+      }
+    }
+  
+    return result;
+  }
+
+  function getTrueProperties(obj) {
+    return Object.entries(obj).reduce((acc, [key, value]) => {
+      if (value === true) {
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
+  }
