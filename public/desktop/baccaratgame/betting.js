@@ -1,4 +1,5 @@
 const wss = "wss://deva.abb1901.com";
+const ws  = "http://43.201.92.14"
 function getCookie(name) {
   const cookieArr = document.cookie.split("; ");
 
@@ -159,8 +160,19 @@ function dataBet({ bets, gameId ,config,tableId }) {
     bets,
     sample: gameCode,
   });
+
+  return  bets.map((x)=>{
+    const { amount, code } = bacaratBet({
+      amount:x.amount,
+      code:x.betcode
+    })
+    return {
+      amount,
+      betcode:code
+    }
+  }) 
 }
-function bacaratBet({ amount, code, gameId, tableId, config }) {
+function bacaratBet({ amount, code  }) {
   const min = 1000;
  
 
@@ -169,7 +181,7 @@ function bacaratBet({ amount, code, gameId, tableId, config }) {
   return {
     amount: newAmount,
     code,
-    gameId,
+ 
   };
 }
 

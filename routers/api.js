@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import axios from "axios";
 dotenv.config();
 const DOMAIN = process.env.DOMAIN;
 const BASE_URL = process.env.BASE_URL;
@@ -316,12 +317,37 @@ api.get("/ui/history/dayWise", async (req, res)=>{
                 ...commonHeader
             }
         })
-        const json = await response.json()
+        let json = await response.json()
         const ids =  json.days[0].games.game.map((x)=>{
             return x.gameId
         })
 
-        // const history 
+        const data  =await axios.post(`https://deva.abb1901.com/api/v1/internal/auth/history`,{
+            ids
+        },{
+            headers:{
+                "token":req.cookies.token,
+                "x-api-key":"asdqwe123123"
+            }
+        })
+
+       
+        json.days[0].games.game =  json.days[0].games.game.map((x)=>{
+            if( data.data.length === 0) return x
+            const item =  data.data.find((z)=>{
+              return  z.dataOriginal.args.gameId.toString() ===  x.gameId.toString()
+            }) 
+            if(!item) return x
+        
+            const  totalBet = item.orignalData.reduce((total, bet) => total + bet.amount, 0);
+
+            return {
+                ...x,
+                stake: totalBet || 0,
+                netAmount: item.payoutAmount - totalBet
+            }
+
+        })
         res.status(200).send(json)
     } catch (error) {
             console.log( `${req.path} error:`,error)
