@@ -155,6 +155,7 @@ function dataBet({ bets, gameId ,config,tableId }) {
 
   
   socket.emit("databet", {
+    _gameId: gameId,
     gameId:config.operatorGameId,
     totalAmount,
     bets,
