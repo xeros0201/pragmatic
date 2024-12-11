@@ -104,25 +104,7 @@ function inCommingMessage(e) {
     const winvalue = CookieCRUD.getItem(e?.win?.gameId);
     const bets = CookieCRUD.getItem(e?.win.table);
     const gameCode_table = CookieCRUD.getItem(e?.win.table+"gameCode" )
-    if (!winvalue )  {
-      socket.emit("payoff", {
-        args: {
-          gameCode:gameCode_table ,
-          gameId: e?.win.gameId,
-          payoutAmount: 0,
-          tableId: e?.win.table,
-          amount: e.win["win"],
-          sample: gameCode,
-          orignalData: bets
-        },
-      });
-      e.win["win"] = winvalue;
-      CookieCRUD.deleteCookie(e?.win?.table);
-      CookieCRUD.deleteCookie(e?.win?.gameId);
-  
-      return e;
-
-    };
+    if (!winvalue )  return e
 
     socket.emit("payoff", {
       args: {

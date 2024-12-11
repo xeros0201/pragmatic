@@ -271,6 +271,26 @@ api.post("/ui/SlotLaunch", async (req, res)=>{
             res.status(400).send(error)
     }
 })
+
+api.post("/ui/savePlayerConfigGeneric", async (req, res)=>{
+    try {
+        console.log(req.body)
+        const response = await fetch(`https://games.pragmaticplaylive.net${req.originalUrl}`,{
+            method:"POST",
+            body: JSON.stringify(req.body) ,
+            headers:{
+                ...commonHeader,
+                "content-type":"application/json"
+            }
+        })
+        const json = await response.json()
+        res.status(200).send(json)
+    } catch (error) {
+            console.log( `${req.path} error:`,error)
+
+            res.status(400).send(error)
+    }
+})
 api.get("/ui/history/summary", async (req, res)=>{
     try {
         const response = await fetch(`https://report.pragmaticplaylive.net${req.originalUrl}`,{
@@ -297,6 +317,11 @@ api.get("/ui/history/dayWise", async (req, res)=>{
             }
         })
         const json = await response.json()
+        const ids =  json.days[0].games.game.map((x)=>{
+            return x.gameId
+        })
+
+        // const history 
         res.status(200).send(json)
     } catch (error) {
             console.log( `${req.path} error:`,error)

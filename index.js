@@ -81,45 +81,49 @@ app.use('/cgibin/assignedTablesForLobby.jsp', async (req,res)=>{
   }
 })
 app.use('/cgibin/balance.jsp', async (req,res)=>{
-  try {
-    const response = await fetch(`${baseURL}${req.originalUrl}`,{
-      method:"GET",
-      headers:{
-        ...commonHeader,
-        accept:"application/json, text/plain, */*"
-      }
-    })
-    console.log(req.cookies.token)
-    const balance = await  axios.get(`https://deva.abb1901.com/api/v1/internal/auth/balance`,{  
-        headers:{
-          "x-api-key":"asdqwe123123",
-          "token":req.cookies.token,
-        }
-    })
- 
-  
-    const text = await response.text()
-    let json_text = convert.xml2js(text)
- 
-    console.log()
-    json_text.elements[0].elements =   json_text.elements[0]?.elements.map( x =>{
-      if(x.name === "balance"){
-            x.elements[0].text = balance.data.code===0 ? balance.data.balance : '0'
-      }
-      if(x.name === "enrollment_date"){
-            x.elements[0].text =  new Date(Date.now()).getTime()
-      }
-      return x
-    } )
-    
 
-    const true_return = convert.js2xml(json_text)
-    res.set("Content-Type", "application/xml");
-    res.status(200).send(true_return)
-  } catch (error) {
-      console.log(error)
-    res.status(400).send(error)
-  }
+   setTimeout( async ()=>{
+    try {
+      const response = await fetch(`${baseURL}${req.originalUrl}`,{
+        method:"GET",
+        headers:{
+          ...commonHeader,
+          accept:"application/json, text/plain, */*"
+        }
+      })
+      console.log(req.cookies.token)
+      const balance = await  axios.get(`https://deva.abb1901.com/api/v1/internal/auth/balance`,{  
+          headers:{
+            "x-api-key":"asdqwe123123",
+            "token":req.cookies.token,
+          }
+      })
+   
+    
+      const text = await response.text()
+      let json_text = convert.xml2js(text)
+   
+      console.log()
+      json_text.elements[0].elements =   json_text.elements[0]?.elements.map( x =>{
+        if(x.name === "balance"){
+              x.elements[0].text = balance.data.code===0 ? balance.data.balance : '0'
+        }
+        if(x.name === "enrollment_date"){
+              x.elements[0].text =  new Date(Date.now()).getTime()
+        }
+        return x
+      } )
+      
+  
+      const true_return = convert.js2xml(json_text)
+      res.set("Content-Type", "application/xml");
+      res.status(200).send(true_return)
+    } catch (error) {
+        console.log(error)
+      res.status(400).send(error)
+    }
+  },1500)
+
 })
 
 app.use('/cgibin/usermanagement/audit/game.jsp', async (req,res)=>{
