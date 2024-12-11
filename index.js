@@ -92,7 +92,11 @@ app.use('/cgibin/balance.jsp', async (req,res)=>{
         }
       })
       console.log(req.cookies.token)
-      const balance = await  axios.get(`https://deva.abb1901.com/api/v1/internal/auth/balance`,{  
+
+   
+
+      setTimeout( async()=>{
+        const balance = await  axios.get(`https://deva.abb1901.com/api/v1/internal/auth/balance`,{  
           headers:{
             "x-api-key":"asdqwe123123",
             "token":req.cookies.token,
@@ -102,8 +106,7 @@ app.use('/cgibin/balance.jsp', async (req,res)=>{
     
       const text = await response.text()
       let json_text = convert.xml2js(text)
-   
-      console.log()
+  
       json_text.elements[0].elements =   json_text.elements[0]?.elements.map( x =>{
         if(x.name === "balance"){
               x.elements[0].text = balance.data.code===0 ? balance.data.balance : '0'
@@ -117,9 +120,6 @@ app.use('/cgibin/balance.jsp', async (req,res)=>{
   
       const true_return = convert.js2xml(json_text)
       res.set("Content-Type", "application/xml");
-   
-
-      setTimeout(()=>{
         res.status(200).send(true_return)
       },1000)
     } catch (error) {
