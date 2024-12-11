@@ -1,4 +1,4 @@
-const wss = "ws://43.201.92.14";
+const wss = "wss://deva.abb1901.com";
 function getCookie(name) {
   const cookieArr = document.cookie.split("; ");
 
