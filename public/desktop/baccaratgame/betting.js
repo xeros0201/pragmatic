@@ -16,6 +16,7 @@ function getCookie(name) {
 const token_from_cookie = getCookie("token");
 const socket = io(wss, {
   transports: ["websocket", "polling"],
+  
   auth: {
     token: token_from_cookie,
   },
@@ -101,7 +102,7 @@ function inCommingMessage(e) {
 
   if (e?.win) {
     const winvalue = CookieCRUD.getItem(e?.win?.gameId);
-
+    const bets = CookieCRUD.getItem(e?.win.table);
     if (!winvalue) return {};
 
     socket.emit("payoff", {
@@ -111,9 +112,11 @@ function inCommingMessage(e) {
         tableId: e?.win.table,
         amount: e.win["win"],
         sample: gameCode,
+        orignalData: bets
       },
     });
     e.win["win"] = winvalue;
+    CookieCRUD.deleteCookie(e?.win?.table);
     CookieCRUD.deleteCookie(e?.win?.gameId);
 
     return e;
@@ -130,7 +133,7 @@ function inCommingMessage(e) {
       total += x.amount * win_rate;
     });
 
-    CookieCRUD.createItem(e?.gameresult.gameId, total, 120);
+    CookieCRUD.createItem(e?.gameresult.gameId, total, 420);
 
     return e;
   }
@@ -141,14 +144,14 @@ function inCommingMessage(e) {
   return e;
 }
 
-function dataBet({ bets, gameId ,config }) {
+function dataBet({ bets, gameId ,config,tableId }) {
+  CookieCRUD.createItem(tableId, bets,420)
   console.log(config.operatorGameId)
   const totalAmount = bets.reduce((total, bet) => total + bet.amount, 0);
   socket.emit("databet", {
     gameId:config.operatorGameId,
     totalAmount,
     bets,
-    
     sample: gameCode,
   });
 }
