@@ -141,18 +141,20 @@ function inCommingMessage(e) {
   return e;
 }
 
-function dataBet({ bets, gameId }) {
+function dataBet({ bets, gameId ,config }) {
+  console.log(config.operatorGameId)
   const totalAmount = bets.reduce((total, bet) => total + bet.amount, 0);
   socket.emit("databet", {
-    gameId,
+    gameId:config.operatorGameId,
     totalAmount,
     bets,
+    
     sample: gameCode,
   });
 }
 function bacaratBet({ amount, code, gameId, tableId, config }) {
   const min = 1000;
-  const settings = SessionStorageCRUD.getItem("PP_SETTINGS");
+ 
 
   const rate = getRate();
   let newAmount = amount * rate > min ? amount * rate : min;
