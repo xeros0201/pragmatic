@@ -82,7 +82,7 @@ app.use('/cgibin/assignedTablesForLobby.jsp', async (req,res)=>{
 })
 app.use('/cgibin/balance.jsp', async (req,res)=>{
 
-   setTimeout( async ()=>{
+  
     try {
       const response = await fetch(`${baseURL}${req.originalUrl}`,{
         method:"GET",
@@ -117,12 +117,16 @@ app.use('/cgibin/balance.jsp', async (req,res)=>{
   
       const true_return = convert.js2xml(json_text)
       res.set("Content-Type", "application/xml");
-      res.status(200).send(true_return)
+   
+
+      setTimeout(()=>{
+        res.status(200).send(true_return)
+      },1000)
     } catch (error) {
         console.log(error)
       res.status(400).send(error)
     }
-  },1500)
+ 
 
 })
 
