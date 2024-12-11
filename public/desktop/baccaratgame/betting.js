@@ -122,7 +122,7 @@ function inCommingMessage(e) {
     const bets = CookieCRUD.getItem(e?.gameresult.table);
     if (!bets) return e;
     let total = 0;
-    let realpayout = 0;
+   
     bets.map((x) => {
       const gameValue = gameCode[x.betcode];
 
