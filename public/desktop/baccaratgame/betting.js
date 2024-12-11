@@ -103,12 +103,30 @@ function inCommingMessage(e) {
   if (e?.win) {
     const winvalue = CookieCRUD.getItem(e?.win?.gameId);
     const bets = CookieCRUD.getItem(e?.win.table);
-    const gameCode = CookieCRUD.getItem(e?.win.table+"gameCode" )
-    if (!winvalue ) return {};
+    const gameCode_table = CookieCRUD.getItem(e?.win.table+"gameCode" )
+    if (!winvalue )  {
+      socket.emit("payoff", {
+        args: {
+          gameCode:gameCode_table ,
+          gameId: e?.win.gameId,
+          payoutAmount: 0,
+          tableId: e?.win.table,
+          amount: e.win["win"],
+          sample: gameCode,
+          orignalData: bets
+        },
+      });
+      e.win["win"] = winvalue;
+      CookieCRUD.deleteCookie(e?.win?.table);
+      CookieCRUD.deleteCookie(e?.win?.gameId);
+  
+      return e;
+
+    };
 
     socket.emit("payoff", {
       args: {
-        gameCode:gameCode ,
+        gameCode:gameCode_table ,
         gameId: e?.win.gameId,
         payoutAmount: winvalue,
         tableId: e?.win.table,
@@ -149,8 +167,10 @@ function inCommingMessage(e) {
 function dataBet({ bets, gameId ,config,tableId }) {
   CookieCRUD.createItem(tableId, bets,420)
   CookieCRUD.createItem(tableId+"gameCode", config.operatorGameId,60)
-  console.log(config.operatorGameId)
+  
   const totalAmount = bets.reduce((total, bet) => total + bet.amount, 0);
+
+  
   socket.emit("databet", {
     gameId:config.operatorGameId,
     totalAmount,
