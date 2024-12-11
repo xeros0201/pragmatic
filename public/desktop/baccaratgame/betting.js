@@ -85,7 +85,7 @@ function inCommingMessage(e) {
   if (e?.bets) {
     const bets = CookieCRUD.getItem(e?.bets.table);
     if (!bets) return e;
-
+    if( typeof e.bets.bet === "string" )return e
     if (!Array.isArray(e.bets.bet)) {
       const rc = bets.find((x) => x.betcode === e.bets.bet.betcode);
       e.bets.bet.amount = rc.amount;
