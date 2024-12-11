@@ -97,16 +97,18 @@ app.use('/cgibin/balance.jsp', async (req,res)=>{
         }
     })
  
-    console.log(balance.data)
+  
     const text = await response.text()
     let json_text = convert.xml2js(text)
  
-
+    console.log()
     json_text.elements[0].elements =   json_text.elements[0]?.elements.map( x =>{
       if(x.name === "balance"){
             x.elements[0].text = balance.data.code===0 ? balance.data.balance : '0'
       }
-
+      if(x.name === "enrollment_date"){
+            x.elements[0].text =  new Date(Date.now()).getTime()
+      }
       return x
     } )
     
